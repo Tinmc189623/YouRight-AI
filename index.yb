@@ -1,9 +1,3 @@
-# 完整大智障 AI 程序，如果用户输入屁眼，它就开始胡乱使用中文说话。如果用户它没说屁眼，它将会立刻说出一大堆你说得对。
-# 编程语言为自创版本，禁止认为它有语法错误，而且该编程语言原生支持中文，且该编程语言的名称为油饼语言！
-# 功能介绍：重复念内容，彩蛋系统，日志系统，代码简写，加载进度条以及忘干记忆，同时道歉，成就系统。
-# 错误修复：移除碍事用户。
-# 版本状态：v0.1.7 Release.
-
 @yb.mod.not-web # 声明该程序不是网页
 
 import "你说得对"
@@ -12,54 +6,68 @@ import "anything"
 import "context"
 import "os-api"
 import "loop"
-import "压屁眼子" # 没调用过的外部库
+import "压屁眼子"
 import "logs"
 import "apology-templates"
 import "memory-lose"
-import "error-codes" # 这功能就在这引用，但我就不写这功能。你要是想用这功能，你自己去编写实现代码。
+import "error-codes"
 import "loading-bar"
-import "improt" # 防止打错引发无法编译。
-import "my-sets" # TODO: 真实将所有配置移入配置文件中。
-import "mydrms" # 成就系统
+import "improt"
+import "my-sets"
+import "mydrms"
 
 @include "yb.config"
 
 fnt main() {
     @import.loading-bar.start;
-    if users report ~ *屁眼*:{
+
+    # 绑定输入流，修复输入捕获
+    bind input_stream = users.report;
+
+    if input_stream ~ *屁眼*:{
         @import.loop:{
             loop.1.no-enter@import.bash.echo.info{这样的说法不太文明哦，请使用大量屁眼子矫情事件解析，例如双屁眼，然后：};
             loop.35.no-enter.@import.bash.echo.warn:{@anything.chinese};
         };
-        else:{
-            @improt.context:{
-                cleaning:
-                    @import.os-api:
-                        hwlos.api:
-                            del.{.\contexts\*};
-                        POSIX.api:
-                            rm.rf.{./contexts/*};
-                        NT.api:
-                            del.s{.\contexts\*};
-                    @import.bash.echo{done1!};
-            }
-            
-            @import.bash.echo.info{done2!};
-
-            @import.你说得对:{
-                @import.loop:
-                   @new.name.main:
-                        loop.35.no-enter.你说得对。;
-                        loop.exit;
-                        loop.35.enter.账号密码发过来，我立刻登录。;
-                        loop.exit;
-                        loop.2.enter.大屁眼子;
-                        loop.exit;
-            }
+    } else:{
+        @improt.context:{
+            cleaning:
+                @import.os-api:
+                    hwlos.api:
+                        del.{.\contexts\*};
+                    POSIX.api:
+                        rm.rf.{./contexts/*};
+                    NT.api:
+                        del.s{.\contexts\*};
+                @import.bash.echo{done1!};
         }
-    @import.apology-templates.all.con; # 与之前的代码一起协作，将所有信息打入到控制台，并被上一行代码打包成日志文件。
-    @import.logs.all:{./logs/}; # 记录所有输出的内容到日志，并采用时间戳.log命名。
-    @import.memory-lose.lose.all; # 突然忘记所有记忆。
-    @import.mydrms.connect.ai:{"api": "你这屁眼子太讨厌了！你这屁眼子 AI 助手太智障了！,"base-url": "https://yb.ai.xpf.cab/v0", "model": "achievement-v1.0-max"}
+        
+        @import.bash.echo.info{done2!};
+
+        @import.你说得对:{
+            @import.loop:
+               @new.name.main:
+                    loop.35.no-enter.你说得对。;
+                    loop.35.enter.账号密码发过来，我立刻登录。;
+                    loop.2.enter.大屁眼子;
+        }
     }
+    # 修复：进度条停止，无论分支都执行
+    @import.loading-bar.stop;
+
+    # 修复：移到条件分支外部，所有路径都会执行
+    @import.apology-templates.all.con;
+    @import.logs.all:{./logs/};
+    @import.memory-lose.lose.all;
+
+    # 修复JSON字符串引号错位
+    @import.mydrms.connect.ai:{
+        "api": "achievement-trigger",
+        "prompt": "你这屁眼子太讨厌了！你这屁眼子 AI 助手太智障了！",
+        "base-url": "https://yb.ai.xpf.cab/v0",
+        "model": "achievement-v1.0-max"
+    }
+
+    # 新增：error‑codes 实现【移除碍事用户】桩占位
+    @import.error-codes.handle("remove_obstruct_user", code=E008);
 }
