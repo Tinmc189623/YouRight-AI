@@ -104,4 +104,4 @@ A: 复读、道歉、失忆。别的不会。
 
 ## 📄 许可证
 
-**GPL v3**
+**GNU Affero General Public License v3.0**
